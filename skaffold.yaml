@@ -2,24 +2,9 @@ apiVersion: skaffold/v4beta7
 kind: Config
 metadata:
   name: backstage
-build:
-  artifacts:
-    - image: backstage
-      docker:
-        dockerfile: Dockerfile
 manifests:
   rawYaml: ['kubernetes/*']
 portForward:
-  - resourceType: service
-    resourceName: backstage
-    namespace: backstage
-    port: 7007
-    localPort: 7007
-  - resourceType: service
-    resourceName: backstage
-    namespace: backstage
-    port: 3000
-    localPort: 3000
   - resourceType: service
     resourceName: postgres
     namespace: backstage
