@@ -27,7 +27,7 @@ import {
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Workstation, WorkstationState } from '../api/types';
-import { WorkstationsData } from './types';
+import { WorkstationConfig, WorkstationsData } from './types';
 
 /** @public */
 export const GCP_CLOUDWORKSTATIONS_CONFIG_ANNOTATION =
@@ -82,7 +82,7 @@ export function useWorkstations() {
   );
 
   const getWorkstationsData = useCallback(
-    async (config: string): Promise<[Record<string, any>, Workstation[]]> => {
+    async (config: string): Promise<[WorkstationConfig, Workstation[]]> => {
       return Promise.all([
         getWorkstationConfigDetails(config),
         workstationsApi.getWorkstations(config),

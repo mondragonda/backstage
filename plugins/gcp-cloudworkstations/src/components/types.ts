@@ -16,6 +16,12 @@
 
 import { Workstation } from '../api/types';
 
+export type WorkstationConfigError = {
+  error?: {
+    message?: string;
+  };
+};
+
 export type WorkstationConfig = {
   name: string;
   container: {
@@ -38,6 +44,6 @@ export type WorkstationConfig = {
 };
 
 export type WorkstationsData = {
-  configDetails: WorkstationConfig;
+  configDetails: WorkstationConfig & WorkstationConfigError;
   workstations: Workstation[];
 };
