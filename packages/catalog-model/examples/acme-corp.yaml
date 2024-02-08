@@ -6,3 +6,14 @@ metadata:
 spec:
   targets:
     - ./acme/org.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: mondragdiego
+spec:
+  profile:
+    displayName: mondragdiego
+    email: mondragdiego@gmail.com
+    picture: https://example.com/staff/jenny-with-party-hat.jpeg
+  memberOf: [team-b, employees]

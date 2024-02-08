@@ -20,12 +20,21 @@ import { UnprocessedEntitiesModule } from '@backstage/plugin-catalog-backend-mod
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { DemoEventBasedEntityProvider } from './DemoEventBasedEntityProvider';
+import { GGroupsEntityProvider } from '@backstage/plugin-catalog-backend-module-ggroups-entity-provider';
 
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
   builder.addProcessor(new ScaffolderEntitiesProcessor());
+
+  const ggroupsProvider = new GGroupsEntityProvider(
+    env.logger,
+    env.config,
+    env.scheduler,
+  );
+
+  builder.addEntityProvider(ggroupsProvider);
 
   const demoProvider = new DemoEventBasedEntityProvider({
     logger: env.logger,
@@ -42,5 +51,15 @@ export default async function createPlugin(
   );
   unprocessed.registerRoutes();
   await processingEngine.start();
+
+  await env.scheduler.scheduleTask({
+    id: 'ggroups_sync',
+    fn: async () => {
+      await ggroupsProvider.run();
+    },
+    frequency: { minutes: 30 },
+    timeout: { minutes: 10 },
+  });
+
   return router;
 }

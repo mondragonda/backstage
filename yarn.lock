@@ -5468,6 +5468,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@backstage/plugin-catalog-backend-module-ggroups-entity-provider@workspace:^, @backstage/plugin-catalog-backend-module-ggroups-entity-provider@workspace:plugins/catalog-backend-module-ggroups-entity-provider":
+  version: 0.0.0-use.local
+  resolution: "@backstage/plugin-catalog-backend-module-ggroups-entity-provider@workspace:plugins/catalog-backend-module-ggroups-entity-provider"
+  dependencies:
+    "@backstage/backend-common": "workspace:^"
+    "@backstage/backend-plugin-api": "workspace:^"
+    "@backstage/backend-test-utils": "workspace:^"
+    "@backstage/catalog-model": "workspace:^"
+    "@backstage/cli": "workspace:^"
+    "@backstage/config": "workspace:^"
+    "@backstage/plugin-catalog-node": "workspace:^"
+    "@googleapis/admin": ^15.0.0
+    lodash: ^4.17.21
+    winston: ^3.2.1
+  languageName: unknown
+  linkType: soft
+
 "@backstage/plugin-catalog-backend-module-github-org@workspace:plugins/catalog-backend-module-github-org":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-catalog-backend-module-github-org@workspace:plugins/catalog-backend-module-github-org"
@@ -11600,6 +11617,15 @@ __metadata:
     teeny-request: ^9.0.0
     uuid: ^8.0.0
   checksum: b63069b7e591e55f9132aab9e8f9cd03b72a5b6e531c1f37fc44c4cd34eb02dd50e8007739dad6f0ac2ddb216eb5a80bc3b062d1d8c42aad7351e6cc6008d27f
+  languageName: node
+  linkType: hard
+
+"@googleapis/admin@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "@googleapis/admin@npm:15.0.0"
+  dependencies:
+    googleapis-common: ^7.0.0
+  checksum: 894250d05213a5ca308460a1c0d997f28fa1939504bb66338457ecb9f8e590cc8f66667c8eb4dbf88965362009bb3cec4afb300de2e5ce94589919ee64a87e7f
   languageName: node
   linkType: hard
 
@@ -27597,6 +27623,7 @@ __metadata:
     "@backstage/plugin-azure-sites-common": "workspace:^"
     "@backstage/plugin-badges-backend": "workspace:^"
     "@backstage/plugin-catalog-backend": "workspace:^"
+    "@backstage/plugin-catalog-backend-module-ggroups-entity-provider": "workspace:^"
     "@backstage/plugin-catalog-backend-module-scaffolder-entity-model": "workspace:^"
     "@backstage/plugin-catalog-backend-module-unprocessed": "workspace:^"
     "@backstage/plugin-catalog-node": "workspace:^"
@@ -28927,7 +28954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gaxios@npm:^6.0.0, gaxios@npm:^6.0.2":
+"gaxios@npm:^6.0.0, gaxios@npm:^6.0.2, gaxios@npm:^6.0.3":
   version: 6.1.1
   resolution: "gaxios@npm:6.1.1"
   dependencies:
@@ -29398,6 +29425,20 @@ __metadata:
   version: 3.20.1
   resolution: "google-protobuf@npm:3.20.1"
   checksum: a440fbc329bb441b253bc421b01540918f4b66921c47a3bc57d154d2677dc917cb1a29126ff35ddc4d8872d1b5843ef1ece60b6dff506ba64a9f5807962d3f61
+  languageName: node
+  linkType: hard
+
+"googleapis-common@npm:^7.0.0":
+  version: 7.0.1
+  resolution: "googleapis-common@npm:7.0.1"
+  dependencies:
+    extend: ^3.0.2
+    gaxios: ^6.0.3
+    google-auth-library: ^9.0.0
+    qs: ^6.7.0
+    url-template: ^2.0.8
+    uuid: ^9.0.0
+  checksum: b87f3e14aed5fab82d3327d924e82a1f1527715c93c0b3534b2e28de698abc02daea00bebe375966ca8bb491394f5fd521e6b615cb89e1bfbe8870b7caa5f899
   languageName: node
   linkType: hard
 
@@ -39158,7 +39199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.10.1, qs@npm:^6.10.2, qs@npm:^6.11.0, qs@npm:^6.11.2, qs@npm:^6.9.1, qs@npm:^6.9.4, qs@npm:^6.9.6":
+"qs@npm:^6.10.1, qs@npm:^6.10.2, qs@npm:^6.11.0, qs@npm:^6.11.2, qs@npm:^6.7.0, qs@npm:^6.9.1, qs@npm:^6.9.4, qs@npm:^6.9.6":
   version: 6.11.2
   resolution: "qs@npm:6.11.2"
   dependencies:
@@ -44847,6 +44888,13 @@ __metadata:
     querystringify: ^2.1.1
     requires-port: ^1.0.0
   checksum: fbdba6b1d83336aca2216bbdc38ba658d9cfb8fc7f665eb8b17852de638ff7d1a162c198a8e4ed66001ddbf6c9888d41e4798912c62b4fd777a31657989f7bdf
+  languageName: node
+  linkType: hard
+
+"url-template@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "url-template@npm:2.0.8"
+  checksum: 4183fccd74e3591e4154134d4443dccecba9c455c15c7df774f1f1e3fa340fd9bffb903b5beec347196d15ce49c34edf6dec0634a95d170ad6e78c0467d6e13e
   languageName: node
   linkType: hard
 

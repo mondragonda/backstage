@@ -470,3 +470,9 @@ stackstorm:
 
 permission:
   enabled: true
+
+google:
+  providers:
+    ggroups:
+      customerId: C02nislwo
+      query: [email:gcp*]
