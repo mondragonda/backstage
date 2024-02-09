@@ -106,17 +106,34 @@ export class GGroupsEntityProvider implements EntityProvider {
     )
 
     if (groupsConfig && queryConfig) {
-      error = new Error('Either google.providers.ggroups.groups or google.providers.ggroups.query should be defined.');
+      error = new Error('Neither google.providers.ggroups.groups or google.providers.ggroups.query are defined as config values.');
       this.logger.error(error);
       throw error;
     }
-    
-    const groupsResponse = await this.directoryApiClient.groups.list({
-      customer: customerIdConfig,
-      ...queryConfig ? {query: queryConfig?.join(' ')} : {}
-    });
 
-    let ggroups = groupsResponse.data.groups;
+    if (queryConfig && queryConfig.length === 0) {
+      error = new Error('google.providers.ggroups.query array has no query expressions defined.');
+      this.logger.error(error);
+      throw error;
+    }
+
+    let groupsResponse: any;
+    let ggroups: admin_directory_v1.Schema$Group[] = [];
+
+    if (!queryConfig) {
+      groupsResponse = await this.directoryApiClient.groups.list({
+        customer: customerIdConfig,
+      });
+      ggroups = groupsResponse.data.groups as admin_directory_v1.Schema$Group[];
+    } else {
+      for (const query of queryConfig) {
+        groupsResponse = await this.directoryApiClient.groups.list({
+          customer: customerIdConfig,
+          query
+        });
+        ggroups = [...ggroups, ...Array.isArray(groupsResponse.data.groups) ? groupsResponse.data.groups as admin_directory_v1.Schema$Group[] : []]
+      }
+    }
 
     if (groupsConfig) {
       ggroups = ggroups?.filter((ggroup) => groupsConfig?.includes(ggroup.email as string));
@@ -179,6 +196,21 @@ export class GGroupsEntityProvider implements EntityProvider {
         entities.push(userEntity);
       }
       entities.push(groupEntity);
+
+      await new Promise<void>((resolve) => {
+        const resume = (timeout: NodeJS.Timeout) => {
+          clearTimeout(timeout);
+          resolve();
+        }
+        const timeout = setTimeout(() => {
+          resume(timeout);
+        }, 1000);
+      });
+      
+    }
+
+    if (entities.length === 0) {
+      return;
     }
 
     await this.connection.applyMutation({

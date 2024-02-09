@@ -475,4 +475,4 @@ google:
   providers:
     ggroups:
       customerId: C02nislwo
-      query: [email:gcp*]
+      query: [email:org*, email:gcp*] 

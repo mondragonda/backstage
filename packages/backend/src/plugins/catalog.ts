@@ -31,7 +31,6 @@ export default async function createPlugin(
   const ggroupsProvider = new GGroupsEntityProvider(
     env.logger,
     env.config,
-    env.scheduler,
   );
 
   builder.addEntityProvider(ggroupsProvider);
