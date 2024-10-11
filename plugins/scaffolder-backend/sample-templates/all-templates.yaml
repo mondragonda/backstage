@@ -8,6 +8,129 @@ spec:
     - ./remote-templates.yaml
 # For local development of a template, you can reference your local templates here.
 # Examples:
-#
-#   - ./local-template/template.yaml
 #   - ../all-templates/local/template.yaml
+---
+# Edit the template parameters below to see how they will render in the scaffolder form UI
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: adc-deployment-template
+  title: Google Cloud ADC component template
+  description: Deploy a component with Google Cloud ADC
+  tags:
+    - gcp
+    - adc
+spec:
+  owner: group:infrastructure
+  type: service
+  parameters:
+    - title: Fill in component information
+      required:
+        - name
+      properties:
+        dependsOn:
+          title: Related Component or Resource
+          description: Catalog entity which the component relates to (Component, Resource)
+          type: string
+          ui:field: OwnedEntityPicker
+          ui:options:
+            allowArbitraryValues: false
+            allowedKinds:
+              - Component
+              - Resource
+        name:
+          type: string
+          description: Unique name for the ADC component
+          ui:field: EntityNamePicker
+          ui:options: {}
+        description:
+          title: Description
+          description: A description for the ADC component
+          type: string
+          ui:options: {}
+        tags:
+          type: array
+          ui:field: EntityTagsPicker
+          ui:options:
+            kinds: []
+            showCounts: true
+    - title: Select ADC template
+      required:
+        - adcTemplate
+      properties:
+        adcTemplate:
+            title: ADC template
+            type: string
+            description: The ADC template to use
+            enum:
+              - gp3
+              - io1
+              - io2
+              - sc1
+              - st1
+              - f
+              - bigtable-023-template
+              - t
+              - s
+              - v
+              - m
+            enumNames:
+              - 'Google Cloud  React SSR Next.js + Express Application'
+              - 'Google Cloud Vertex AI Python 3 Workbench'
+              - 'Google Cloud Kafka Pub/Sub service'
+              - 'Google Cloud Storage Coldline Bucket'
+              - 'Google Cloud SQL'
+              - 'Google Cloud Spanner'
+              - 'Google Cloud Bigtable'
+              - 'Google Cloud Datastore'
+              - 'Google Cloud Firestore'
+              - 'Google Cloud Pub/Sub'
+              - 'Google Cloud Dataproc'
+    - title: Choose component location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+  steps:
+    - id: template
+      name: Generate entity configuration
+      action: fetch:template:file
+      input:
+        url: ./catalog-info.yaml
+        targetPath: ./${{ parameters.name }}/catalog-info.yaml
+        replace: true
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          tags: ${{ parameters.tags }}
+          adcTemplate: ${{ parameters.adcTemplate }}
+          dependsOn: ${{ parameters.dependsOn }}
+          owner: ${{ user.entity.metadata.name }}
+    - id: publish
+      name: Publish entity
+      action: publish:github
+      input:
+        description: ${{ parameters.name }} ADC component Backstage configuration
+        repoUrl: ${{ parameters.repoUrl }}
+        requestUserCredentials:
+          secretsKey: ssa
+    - id: register
+      name: Register in catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "/${{ parameters.name }}/catalog-info.yaml"
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+

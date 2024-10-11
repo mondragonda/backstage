@@ -16,7 +16,6 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  DocExplorer,
   EditorContextProvider,
   ExplorerContextProvider,
   SchemaContextProvider,
@@ -67,7 +66,7 @@ export const GraphQlDefinition = ({ definition }: Props) => {
               <div className="graphiql-sidebar">
                 <div className="graphiql-sidebar-section">
                   <ExplorerContextProvider>
-                    <DocExplorer />
+                    {/* <DocExplorer /> */}
                   </ExplorerContextProvider>
                 </div>
               </div>

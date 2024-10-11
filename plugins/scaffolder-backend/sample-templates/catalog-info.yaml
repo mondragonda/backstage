@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource 
+metadata:
+  name: ${{values.name}}
+  {%- if values.description %}
+  description: ${{values.description}}
+  {%- endif %}
+  {%- if values.tags %}
+  tags:
+    {%- for tag in values.tags %}
+    - ${{ tag }}
+    {%- endfor %}
+  {%- endif %}
+  annotations:
+    google.cloud/adc-template: ${{ values.adcTemplate }}
+spec:
+  type: service
+  lifecycle: production
+  owner: ${{ values.owner }}
+  {%- if values.dependsOn %}
+  dependsOn:
+    - ${{ values.dependsOn }}
+  {%- endif %}
